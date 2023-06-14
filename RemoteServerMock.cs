@@ -20,6 +20,8 @@ namespace Padding_Oracle_Attack
             aesAlg.BlockSize = 128;
             aesAlg.Mode = CipherMode.CBC;
             aesAlg.Padding = paddingMode;
+            aesAlg.Key = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8 };
+            aesAlg.IV = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8 };
         }
 
         public byte[] Encrypt(string plaintext)

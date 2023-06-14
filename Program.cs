@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using Mono.Options;
+using System.IO;
 
 namespace Padding_Oracle_Attack
 {
@@ -16,16 +17,18 @@ namespace Padding_Oracle_Attack
 
         public static void Main(String[] args)
         {
-            Console.WriteLine("~~ Padding Oracle Attack Demo ~~");
+            Console.WriteLine("Padding Oracle Attack Demo");
 
             HandleConfigurationArguments(args);
 
             Console.WriteLine("Oracle response delay set to {0} ms.", oracle.OracleDelayMilliseconds);
 
-            Console.WriteLine("\nEnter plaintext:");
-            string plaintext = Console.ReadLine();
+            //Console.WriteLine("\nEnter plaintext:");
+            //var plaintext = Console.ReadLine();
+            //var encrypted = oracle.Encrypt(plaintext);
+            //File.WriteAllBytes(@".\enc.bin", encrypted);
 
-            byte[] encrypted = oracle.Encrypt(plaintext);
+            var encrypted = File.ReadAllBytes(@".\enc.bin");
             var blocks = ByteUtils.SliceIntoBlocks(encrypted);
 
             Console.WriteLine("\nCiphertext blocks (base64):\n{0}", String.Join("\n", blocks.ConvertAll(block => Convert.ToBase64String(block))));
@@ -40,7 +43,7 @@ namespace Padding_Oracle_Attack
             {
                 stopwatch.Start();
 
-                var decrypted = decryptor.DecryptBlock(blocks[blockIndex], blocks[blockIndex - 1]);
+                var decrypted = decryptor.IsValidBlock(blocks[blockIndex], blocks[blockIndex - 1]);
 
                 stopwatch.Stop();
 

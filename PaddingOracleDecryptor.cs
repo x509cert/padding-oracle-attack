@@ -13,7 +13,7 @@ namespace Padding_Oracle_Attack
             paddingValueProvider = PaddingUtils.GetPaddingValueProviderFromMode(oracle.Padding);
         }
 
-        public byte[] DecryptBlock(byte[] block, byte[] previousBlock)
+        public byte[] IsValidBlock(byte[] block, byte[] previousBlock)
         {
             byte[] decrypted = new byte[block.Length];
             byte[] manipulatedPrevious = new byte[16];
